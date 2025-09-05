@@ -17,7 +17,7 @@ jobs:
     - name: 🟢 Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
         cache: 'npm'
         
     - name: 📦 Install dependencies
@@ -27,9 +27,7 @@ jobs:
       uses: cypress-io/github-action@v6
       with:
         browser: chrome
-        headless: true
-        wait-on: 'http://localhost:3000'
-        wait-on-timeout: 120
+        headed: false
         record: false
         
     - name: 📊 Upload test results
