@@ -4,13 +4,9 @@
   "description": "Lacoste Technical Test - Complete Cypress implementation",
   "scripts": {
     "test": "cypress run",
-    "test:exercice1": "cypress run --spec 'cypress/e2e/exercice1-solution.cy.js'",
-    "test:exercice2:us": "cypress run --spec 'cypress/e2e/exercice2-lacoste-us.cy.js'",
-    "test:exercice2:fr": "cypress run --spec 'cypress/e2e/exercice2-lacoste-fr.cy.js'",
-    "test:exercice2": "cypress run --spec 'cypress/e2e/exercice2-*.cy.js'",
-    "cypress:open": "cypress open",
-    "cypress:headed": "cypress run --headed",
-    "cypress:chrome": "cypress run --browser chrome"
+    "test:us": "cypress run --spec 'cypress/e2e/exercice2-lacoste-us.cy.js'",
+    "test:fr": "cypress run --spec 'cypress/e2e/exercice2-lacoste-fr.cy.js'",
+    "cypress:open": "cypress open"
   },
   "keywords": [
     "cypress",

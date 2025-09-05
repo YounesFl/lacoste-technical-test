@@ -1,9 +1,24 @@
-// Simple Cypress support file for Lacoste Technical Test
-// No complex setup needed for basic API testing
+// Custom command for Google search setup
+Cypress.Commands.add('setupGoogleSearch', () => {
+  cy.clearCookies();
+  cy.clearLocalStorage();
+  
+  // Set Google cookies to avoid popups
+  cy.setCookie('CONSENT', 'YES+cb.20210328-17-p0.en+FX+667', {
+    domain: '.google.com',
+    secure: true,
+    httpOnly: false
+  });
+  
+  cy.setCookie('SOCS', 'CAI', {
+    domain: '.google.com', 
+    secure: true,
+    httpOnly: false
+  });
+});
 
-// Just basic error handling
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // Don't fail tests on API-related errors that we want to handle
+// Error handling
+Cypress.on('uncaught:exception', (err) => {
   if (err.message.includes('Network Error') || 
       err.message.includes('API Error')) {
     return false;

@@ -10,6 +10,7 @@ cypress/downloads/
 # Environment
 .env
 .env.local
+cypress.env.json
 
 # IDE
 .vscode/

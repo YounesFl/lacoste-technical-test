@@ -29,6 +29,8 @@ jobs:
         browser: chrome
         headed: false
         record: false
+      env:
+        CYPRESS_EXCHANGE_API_KEY: ${{ secrets.EXCHANGE_API_KEY }}
         
     - name: 📊 Upload test results
       uses: actions/upload-artifact@v4
