@@ -1,0 +1,47 @@
+name: 🤖 Lacoste Tests - Cypress Automation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: 📦 Install dependencies
+      run: npm ci
+      
+    - name: 🤖 Run Cypress tests
+      uses: cypress-io/github-action@v6
+      with:
+        browser: chrome
+        headless: true
+        wait-on: 'http://localhost:3000'
+        wait-on-timeout: 120
+        record: false
+        
+    - name: 📊 Upload test results
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: cypress/screenshots
+        
+    - name: 🎥 Upload videos
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: cypress-videos
+        path: cypress/videos

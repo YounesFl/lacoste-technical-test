@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:exchangeratesapi.io)",
+      "Bash(npm run validate:*)",
+      "Bash(npm test)",
+      "Bash(npm install:*)",
+      "Bash(npx cypress:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm run test:basic:*)",
+      "Bash(tree:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
