@@ -16,7 +16,7 @@ npm install
 # 2. Configurer l'API Key (pour Exercice 1)
 cp cypress.env.example.json cypress.env.json
 # Éditer cypress.env.json et remplacer "your-api-key-here" par votre clé exchangeratesapi.io
-# Ou utiliser la clé de démonstration : 2dd8e00d22d3af91b792d7c9eb7191ff
+# Ou utiliser votre clé exchangeratesapi.io
 
 # 3. Lancer TOUS les tests
 npm test
@@ -38,7 +38,7 @@ npm test
 #### **Endpoint et paramètres :**
 ```
 GET https://api.exchangeratesapi.io/v1/2025-01-01
-    ?access_key=2dd8e00d22d3af91b792d7c9eb7191ff
+    ?access_key=YOUR_API_KEY
     &base=EUR
     &symbols=USD
 ```
@@ -65,7 +65,7 @@ npm run test             # Voir l'implémentation
 npx cypress open         # Interface graphique détaillée
 ```
 
-**Fichier test :** [`cypress/e2e/exercice1-solution.cy.js`](cypress/e2e/exercice1-solution.cy.js)
+**Fichier test :** [`cypress/e2e/api/exchange-rate.cy.js`](cypress/e2e/api/exchange-rate.cy.js)
 
 ---
 
@@ -124,8 +124,8 @@ npm run test:us          # Test Lacoste US
 npm run test:fr          # Test Lacoste FR
 
 # Voir le code
-cypress/e2e/exercice2-lacoste-us.cy.js
-cypress/e2e/exercice2-lacoste-fr.cy.js
+cypress/e2e/ui/lacoste-search-us.cy.js
+cypress/e2e/ui/lacoste-search-fr.cy.js
 ```
 
 ---
@@ -145,10 +145,12 @@ cypress/e2e/exercice2-lacoste-fr.cy.js
 
 ### **Architecture et bonnes pratiques :**
 
+- ✅ **Structure organisée** → Tests séparés par type (api/, ui/)
+- ✅ **Test data centralisé** → cypress/fixtures/testData.json
 - ✅ **Custom commands** → Réutilisation code (évite duplication)
 - ✅ **Attentes intelligentes** → `cy.contains()` au lieu de `cy.wait()` 
-- ✅ **Assertions robustes** → Validation URL + contenu
-- ✅ **Configuration simple** → Cypress config minimal et fonctionnel
+- ✅ **Configuration sécurisée** → Variables d'environnement GitHub Secrets
+- ✅ **Assertions paramétrées** → Valeurs dynamiques depuis fixtures
 - ✅ **Pipeline GitHub Actions** → Tests automatiques sur chaque push
 - ✅ **Documentation complète** → Réponses détaillées aux questions
 
@@ -160,9 +162,13 @@ cypress/e2e/exercice2-lacoste-fr.cy.js
 lacoste-technical-test/
 ├── cypress/
 │   ├── e2e/
-│   │   ├── exercice1-solution.cy.js        # API Exchange Rate
-│   │   ├── exercice2-lacoste-us.cy.js      # Google Search US  
-│   │   └── exercice2-lacoste-fr.cy.js      # Google Search FR
+│   │   ├── api/
+│   │   │   └── exchange-rate.cy.js         # API Exchange Rate tests
+│   │   └── ui/
+│   │       ├── lacoste-search-us.cy.js     # Google Search US tests
+│   │       └── lacoste-search-fr.cy.js     # Google Search FR tests
+│   ├── fixtures/
+│   │   └── testData.json                   # Centralized test data
 │   └── support/
 │       └── e2e.js                          # Custom commands
 ├── .github/workflows/
@@ -172,6 +178,7 @@ lacoste-technical-test/
 ├── lacoste-test-cases.feature              # 5 cas de tests Gherkin
 ├── lacoste-technical-test.md               # Énoncé original
 ├── cypress.config.js                       # Configuration Cypress
+├── cypress.env.example.json                # Environment template
 ├── package.json                            # Scripts NPM
 └── README.md                               # Ce fichier
 ```
@@ -183,6 +190,8 @@ lacoste-technical-test/
 ### **Tests :**
 ```bash
 npm test                 # Tous les tests
+npm run test:api         # Tests API seulement  
+npm run test:ui          # Tests UI seulement
 npm run test:us          # Test US seulement
 npm run test:fr          # Test FR seulement
 npm run cypress:open     # Interface graphique
@@ -252,7 +261,15 @@ git log --oneline        # Historique commits
 ### **Valeur démontrée :**
 ✅ **Adaptabilité technique** - Pivot intelligent face aux blocages  
 ✅ **Pragmatisme** - Solution fonctionnelle vs solution parfaite  
-✅ **Expertise testing** - Bonnes pratiques appliquées malgré les contraintes  
+✅ **Expertise testing** - Bonnes pratiques QA appliquées (fixtures, structure organisée)  
+✅ **Code maintenable** - Test data centralisé, assertions paramétrées  
 ✅ **Communication technique** - Documentation claire des limitations  
+
+### **Bonnes pratiques QA implémentées :**
+- **Test Data Management** - cypress/fixtures/testData.json centralisé
+- **Test Organization** - Structure claire api/ vs ui/  
+- **Environment Management** - Variables sécurisées GitHub Secrets
+- **Code Reusability** - Custom commands et fixtures partagées
+- **Documentation** - Contraintes techniques transparentes
 
 **🎯 Solution professionnelle adaptée aux contraintes réelles du testing en 2024 !**

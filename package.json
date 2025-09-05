@@ -4,8 +4,10 @@
   "description": "Lacoste Technical Test - Complete Cypress implementation",
   "scripts": {
     "test": "cypress run",
-    "test:us": "cypress run --spec 'cypress/e2e/exercice2-lacoste-us.cy.js'",
-    "test:fr": "cypress run --spec 'cypress/e2e/exercice2-lacoste-fr.cy.js'",
+    "test:api": "cypress run --spec 'cypress/e2e/api/**/*.cy.js'",
+    "test:ui": "cypress run --spec 'cypress/e2e/ui/**/*.cy.js'", 
+    "test:us": "cypress run --spec 'cypress/e2e/ui/lacoste-search-us.cy.js'",
+    "test:fr": "cypress run --spec 'cypress/e2e/ui/lacoste-search-fr.cy.js'",
     "cypress:open": "cypress open"
   },
   "keywords": [

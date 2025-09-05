@@ -10,18 +10,26 @@
 
 describe('📋 Lacoste Technical Test - Exercice 1', () => {
 
+  let testData;
+  
+  before(() => {
+    cy.fixture('testData').then((data) => {
+      testData = data;
+    });
+  });
+
   it('🎯 QUESTION 1-2-3 : Récupérer et valider EUR → USD pour 01/01/2025', () => {
     
     // ========================================
     // 📡 ÉTAPE 1 : CONFIGURATION DE L'APPEL API
     // ========================================
     
-    const endpoint = 'https://api.exchangeratesapi.io/v1/2025-01-01';
+    const endpoint = `${testData.api.exchangeRate.baseUrl}/${testData.api.exchangeRate.testDate}`;
     const apiKey = Cypress.env('EXCHANGE_API_KEY');
     const parameters = {
       access_key: apiKey,
-      base: 'EUR',
-      symbols: 'USD'
+      base: testData.api.exchangeRate.baseCurrency,
+      symbols: testData.api.exchangeRate.targetCurrency
     };
 
     cy.log('🔧 ÉTAPE 1 : Configuration de l\'appel API');
@@ -71,33 +79,33 @@ describe('📋 Lacoste Technical Test - Exercice 1', () => {
         expect(response.body, '✅ Le champ success doit être true').to.have.property('success', true);
         cy.log('✅ Validation réussie : success = true');
         
-        expect(response.body, '✅ La date doit correspondre à celle demandée').to.have.property('date', '2025-01-01');
-        cy.log('✅ Validation réussie : date = 2025-01-01');
+        expect(response.body, '✅ La date doit correspondre à celle demandée').to.have.property('date', testData.api.exchangeRate.testDate);
+        cy.log(`✅ Validation réussie : date = ${testData.api.exchangeRate.testDate}`);
         
-        expect(response.body, '✅ La devise de base doit être EUR').to.have.property('base', 'EUR');
-        cy.log('✅ Validation réussie : base = EUR');
+        expect(response.body, '✅ La devise de base doit être EUR').to.have.property('base', testData.api.exchangeRate.baseCurrency);
+        cy.log(`✅ Validation réussie : base = ${testData.api.exchangeRate.baseCurrency}`);
         
         expect(response.body, '✅ L\'objet rates doit exister').to.have.property('rates');
         cy.log('✅ Validation réussie : objet rates présent');
         
-        expect(response.body.rates, '✅ Le taux USD doit être présent').to.have.property('USD');
+        expect(response.body.rates, `✅ Le taux ${testData.api.exchangeRate.targetCurrency} doit être présent`).to.have.property(testData.api.exchangeRate.targetCurrency);
         cy.log('✅ Validation réussie : taux USD présent dans rates');
 
         // ========================================
         // 🔢 ÉTAPE 4B : VALIDATION DES TYPES
         // ========================================
         
-        const usdRate = response.body.rates.USD;
+        const targetRate = response.body.rates[testData.api.exchangeRate.targetCurrency];
         
         cy.log('');
         cy.log('🔢 ÉTAPE 4B : Validation des types de données');
-        cy.log(`💰 Taux EUR → USD extrait : ${usdRate}`);
+        cy.log(`💰 Taux ${testData.api.exchangeRate.baseCurrency} → ${testData.api.exchangeRate.targetCurrency} extrait : ${targetRate}`);
         
-        expect(usdRate, '✅ Le taux USD doit être un nombre').to.be.a('number');
-        cy.log(`✅ Validation réussie : ${usdRate} est bien un nombre`);
+        expect(targetRate, `✅ Le taux ${testData.api.exchangeRate.targetCurrency} doit être un nombre`).to.be.a('number');
+        cy.log(`✅ Validation réussie : ${targetRate} est bien un nombre`);
         
-        expect(usdRate, '✅ Le taux USD doit être positif').to.be.greaterThan(0);
-        cy.log(`✅ Validation réussie : ${usdRate} est positif`);
+        expect(targetRate, `✅ Le taux ${testData.api.exchangeRate.targetCurrency} doit être positif`).to.be.greaterThan(0);
+        cy.log(`✅ Validation réussie : ${targetRate} est positif`);
 
         // ========================================
         // 💼 ÉTAPE 4C : VALIDATION MÉTIER
@@ -106,13 +114,13 @@ describe('📋 Lacoste Technical Test - Exercice 1', () => {
         cy.log('');
         cy.log('💼 ÉTAPE 4C : Validation des règles métier');
         
-        expect(usdRate, '✅ Le taux EUR/USD doit être dans une fourchette réaliste').to.be.within(0.5, 2.5);
-        cy.log(`✅ Validation réussie : ${usdRate} est dans la fourchette 0.5-2.5`);
+        expect(targetRate, `✅ Le taux ${testData.api.exchangeRate.baseCurrency}/${testData.api.exchangeRate.targetCurrency} doit être dans une fourchette réaliste`).to.be.within(testData.api.exchangeRate.expectedRange.min, testData.api.exchangeRate.expectedRange.max);
+        cy.log(`✅ Validation réussie : ${targetRate} est dans la fourchette ${testData.api.exchangeRate.expectedRange.min}-${testData.api.exchangeRate.expectedRange.max}`);
         
         // Validation de la précision
-        const decimalPlaces = usdRate.toString().split('.')[1]?.length || 0;
-        expect(decimalPlaces, '✅ Le taux doit avoir une précision suffisante').to.be.at.least(2);
-        cy.log(`✅ Validation réussie : précision de ${decimalPlaces} décimales (≥ 2)`);
+        const decimalPlaces = targetRate.toString().split('.')[1]?.length || 0;
+        expect(decimalPlaces, '✅ Le taux doit avoir une précision suffisante').to.be.at.least(testData.api.exchangeRate.minDecimalPlaces);
+        cy.log(`✅ Validation réussie : précision de ${decimalPlaces} décimales (≥ ${testData.api.exchangeRate.minDecimalPlaces})`);
 
         // ========================================
         // 📊 ÉTAPE 4D : INFORMATIONS SUPPLÉMENTAIRES
@@ -140,9 +148,9 @@ describe('📋 Lacoste Technical Test - Exercice 1', () => {
         cy.log('🎉 RÉSULTAT FINAL DE L\'EXERCICE 1');
         cy.log('='.repeat(60));
         cy.log(`✅ ENDPOINT UTILISÉ : ${endpoint}`);
-        cy.log(`✅ PARAMÈTRES : access_key=${apiKey.substring(0,8)}..., base=EUR, symbols=USD`);
+        cy.log(`✅ PARAMÈTRES : access_key=${apiKey.substring(0,8)}..., base=${testData.api.exchangeRate.baseCurrency}, symbols=${testData.api.exchangeRate.targetCurrency}`);
         cy.log(`✅ RÉPONSE OBTENUE : Structure valide avec tous les champs requis`);
-        cy.log(`✅ TAUX EUR → USD : ${usdRate} (précision: ${decimalPlaces} décimales)`);
+        cy.log(`✅ TAUX ${testData.api.exchangeRate.baseCurrency} → ${testData.api.exchangeRate.targetCurrency} : ${targetRate} (précision: ${decimalPlaces} décimales)`);
         cy.log(`✅ VALIDATION : Tous les contrôles de structure, type et métier passés`);
         cy.log('='.repeat(60));
         cy.log('🎯 EXERCICE 1 RÉUSSI : Récupération et validation EUR → USD complète !');

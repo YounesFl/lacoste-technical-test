@@ -8,7 +8,9 @@
       "Bash(npx cypress:*)",
       "Bash(mkdir:*)",
       "Bash(npm run test:basic:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(mv:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

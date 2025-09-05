@@ -14,13 +14,13 @@ https://api.exchangeratesapi.io/v1/2025-01-01
 ### 🔧 **Paramètres requis :**
 | Paramètre | Valeur | Description |
 |-----------|--------|-------------|
-| `access_key` | `2dd8e00d22d3af91b792d7c9eb7191ff` | Clé d'authentification API |
+| `access_key` | `YOUR_API_KEY` | Clé d'authentification API |
 | `base` | `EUR` | Devise de base (Euro) |
 | `symbols` | `USD` | Devise cible (Dollar US) |
 
 ### 🌐 **URL complète testable :**
 ```
-GET https://api.exchangeratesapi.io/v1/2025-01-01?access_key=2dd8e00d22d3af91b792d7c9eb7191ff&base=EUR&symbols=USD
+GET https://api.exchangeratesapi.io/v1/2025-01-01?access_key=YOUR_API_KEY&base=EUR&symbols=USD
 ```
 
 ### 🧪 **Tester dans le projet :**
@@ -32,7 +32,7 @@ npm test
 npm run cypress:open
 ```
 
-**💡 Voir l'implémentation :** `cypress/e2e/exercice1-solution.cy.js` (lignes 18-24)
+**💡 Voir l'implémentation :** `cypress/e2e/api/exchange-rate.cy.js` (lignes 27-33)
 
 ---
 
@@ -79,7 +79,7 @@ npm test
 # Chercher dans les logs Cypress : "📥 API Response:"
 ```
 
-**💡 Voir l'implémentation :** `cypress/e2e/exercice1-solution.cy.js` (lignes 32-34)
+**💡 Voir l'implémentation :** `cypress/e2e/api/exchange-rate.cy.js` (lignes 75-85)
 
 ---
 
@@ -139,7 +139,7 @@ npm test
 # "📈 Rate is within expected business range"
 ```
 
-**💡 Voir l'implémentation complète :** `cypress/e2e/exercice1-solution.cy.js` (lignes 40-70)
+**💡 Voir l'implémentation complète :** `cypress/e2e/api/exchange-rate.cy.js` (lignes 95-125)
 
 ---
 
@@ -153,9 +153,10 @@ npm run cypress:open     # Interface graphique
 
 ### 📁 **Structure du projet :**
 ```
-├── cypress/e2e/exercice1-solution.cy.js    # Tests automatisés
+├── cypress/e2e/api/exchange-rate.cy.js     # Tests automatisés API
+├── cypress/fixtures/testData.json          # Données de test centralisées
 ├── cypress.config.js                       # Configuration Cypress
-├── cypress.env.json                        # Clé API sécurisée
+├── cypress.env.json                        # Clé API sécurisée (local)
 └── exercice1-reponse.md                    # Ce fichier de réponses
 ```
 

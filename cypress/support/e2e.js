@@ -3,17 +3,21 @@ Cypress.Commands.add('setupGoogleSearch', () => {
   cy.clearCookies();
   cy.clearLocalStorage();
   
-  // Set Google cookies to avoid popups
-  cy.setCookie('CONSENT', 'YES+cb.20210328-17-p0.en+FX+667', {
-    domain: '.google.com',
-    secure: true,
-    httpOnly: false
-  });
-  
-  cy.setCookie('SOCS', 'CAI', {
-    domain: '.google.com', 
-    secure: true,
-    httpOnly: false
+  // Load test data and set cookies
+  cy.fixture('testData').then((testData) => {
+    const { consent, socs } = testData.cookies.google;
+    
+    cy.setCookie(consent.name, consent.value, {
+      domain: consent.domain,
+      secure: consent.secure,
+      httpOnly: consent.httpOnly
+    });
+    
+    cy.setCookie(socs.name, socs.value, {
+      domain: socs.domain,
+      secure: socs.secure,
+      httpOnly: socs.httpOnly
+    });
   });
 });
 

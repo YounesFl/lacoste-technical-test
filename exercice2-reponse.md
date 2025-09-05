@@ -12,8 +12,9 @@
 
 **Structure finale :**
 ```
-├── cypress/e2e/exercice2-lacoste-us.cy.js    # Test recherche US
-├── cypress/e2e/exercice2-lacoste-fr.cy.js    # Test recherche FR  
+├── cypress/e2e/ui/lacoste-search-us.cy.js    # Test recherche US
+├── cypress/e2e/ui/lacoste-search-fr.cy.js    # Test recherche FR  
+├── cypress/fixtures/testData.json            # Données centralisées
 ├── cypress/support/e2e.js                    # Custom commands
 ├── cypress.config.js                         # Configuration simplifiée
 └── package.json                              # Scripts optimisés
@@ -30,18 +31,19 @@ npm run test:fr # Test FR seulement
 
 ### ✅ **2. Search for "Lacoste US" on Google - FAIT**
 
-**Implémentation :** `cypress/e2e/exercice2-lacoste-us.cy.js`
+**Implémentation :** `cypress/e2e/ui/lacoste-search-us.cy.js`
 
 #### 🔍 **Ce qui est automatisé :**
 1. **Setup Google** → Custom command `cy.setupGoogleSearch()` (évite popups)
-2. **Navigation** → `https://www.google.com` 
-3. **Recherche** → Tape "Lacoste US" + Enter
+2. **Navigation** → URL depuis `testData.json` 
+3. **Recherche** → Query depuis `testData.json` + validation
 4. **Validation** → Page résultats + "Lacoste" visible
 
 #### ⚡ **Bonnes pratiques appliquées :**
-- Réutilisation du code (custom command)
-- Attente intelligente au lieu de `cy.wait()` fixe
-- Assertions robustes sur URL et contenu
+- Test data centralisé dans `cypress/fixtures/testData.json`
+- Custom commands avec fixtures (évite duplication)
+- Attentes intelligentes au lieu de `cy.wait()` fixe
+- Assertions paramétrées depuis test data
 
 **🧪 Test :** `npm run test:us` (✅ Passe en ~2 secondes)
 
@@ -49,12 +51,12 @@ npm run test:fr # Test FR seulement
 
 ### ✅ **3. Same for Lacoste FR + list automated tests - FAIT**
 
-**Implémentation :** `cypress/e2e/exercice2-lacoste-fr.cy.js`
+**Implémentation :** `cypress/e2e/ui/lacoste-search-fr.cy.js`
 
 #### 🔍 **Test FR automatisé :**
 1. **Setup Google** → Même custom command réutilisé
-2. **Navigation** → `https://www.google.fr` (version française)
-3. **Recherche** → "Lacoste FR" 
+2. **Navigation** → URL depuis `testData.json` (version française)
+3. **Recherche** → Query depuis `testData.json` 
 4. **Validation** → Page résultats + "Lacoste" trouvé
 
 **🧪 Test :** `npm run test:fr` (✅ Passe en ~2 secondes)

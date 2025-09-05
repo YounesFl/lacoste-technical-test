@@ -1,0 +1,55 @@
+{
+  "api": {
+    "exchangeRate": {
+      "baseUrl": "https://api.exchangeratesapi.io/v1",
+      "testDate": "2025-01-01",
+      "baseCurrency": "EUR",
+      "targetCurrency": "USD",
+      "expectedRange": {
+        "min": 0.5,
+        "max": 2.5
+      },
+      "minDecimalPlaces": 2
+    }
+  },
+  "ui": {
+    "google": {
+      "baseUrl": {
+        "us": "https://www.google.com",
+        "fr": "https://www.google.fr"
+      },
+      "selectors": {
+        "searchInput": "input[name=\"q\"], textarea[name=\"q\"]",
+        "searchTimeout": 10000
+      }
+    },
+    "search": {
+      "queries": {
+        "lacosteus": "Lacoste US",
+        "lacostefr": "Lacoste FR"
+      },
+      "validation": {
+        "searchResultsTimeout": 8000,
+        "expectedInUrl": "search"
+      }
+    }
+  },
+  "cookies": {
+    "google": {
+      "consent": {
+        "name": "CONSENT",
+        "value": "YES+cb.20210328-17-p0.en+FX+667",
+        "domain": ".google.com",
+        "secure": true,
+        "httpOnly": false
+      },
+      "socs": {
+        "name": "SOCS", 
+        "value": "CAI",
+        "domain": ".google.com",
+        "secure": true,
+        "httpOnly": false
+      }
+    }
+  }
+}
